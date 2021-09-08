@@ -1,0 +1,83 @@
+Demo lần này là một máy Windows Server 2003, Centos 7 và Widows 7
+1. Cài đặt 3 máy ảo máy tính
+2. Đặt đầy đủ IP/SM/DG/DNS
+3. Máy Ping qua lại lẫn nhau
+      ---------------------------------------------------------------------
+      |     |Window Server 2003 |    Centos 7       |       Windows 7      |
+      | IP  |  192.168.10.10    |  192.168.10.20    |    192.168.10.30     |
+      | SM  |       /24         |      /24          |         /24          |
+      | DG  |  192.168.10.10    |  192.168.10.10    |    192.168.10.10     |
+      | DNS |  192.168.10.10    |  192.168.10.10    |    192.168.10.10     |
+      ---------------------------------------------------------------------
+
+Bước 1: Chuẩn bị source ISO
+------------------------------------------------------------------------------------------------------
+Window Server 2003: https://download.tienichmaytinh.net/tai-windows-server-2003-sp2-x64-x86-enterprise-standard
+Windows 7 Ultimate: https://www.fshare.vn/file/QRAU4Q41LM1Z?token=1631034162
+Centos 7: https://buildlogs.centos.org/centos/7/isos/x86_64/
+------------------------------------------------------------------------------------------------------
+
+
+Bước 2: Sử dụng VMware hoặc Toolbox để tạo máy ảo
+- Lần này mình sẽ sử dụng VMware để tạo máy ảo, các bạn chọn "Create a New Virtual Machine"
+- Chọn "Typical"
+- Chọn "Installer disc image file (iso) -> trõ về thư mục chứa file iso. Trong ví dụ này mình sẽ tạo máy ảo Window 7 Ultimate. Sau đó chọn thư mục của máy tính để tạo máy ảo, tiếp theo là cấu hình Memory, Hard Disk, mạng mà bạn mong muốn.
+- Chờ đợi khi máy ảo cài xong
+
+
+Bước 3: Cấu hình IP tại máy Windows Server 2003
+- Chọn Control Panel => Chọn Network Connections => Chọn Local Area Connections
+- Chọn Properties => Chọn Internet Protocol (TCP/IP)
+- Chọn Use the following IP address và cấu hình IP,SM,DG và DNS.
+
+
+Bước 4:Cấu hình IP tại máy Centos 7
+- Liệt kê thông tin mạng trên CentOS 7
+---------------------------------------------------------------------------------------
+# ip add
+---------------------------------------------------------------------------------------
+– Hoặc cũng có thể sử dụng lệnh ‘nmcli‘ của chương trình dịch vụ NetworkManager. Nếu card cần cấu hình hiển thị trạng thái ‘connected‘ là card mạng đó đã được cấu hình để được quả lý bởi chương trình Network Manager.
+---------------------------------------------------------------------------------------
+# nmcli -p dev
+---------------------------------------------------------------------------------------
+- Trong ví dụ lần này mình soi được card mạng ens33 connected 
+* Cấu hình static IP với chương trình dịch vụ Network Manager
+- Network Manager là một chương trình/dịch vụ hỗ trợ điều khiển quản lý mạng cũng như cấu hình hệ thống mạng trên CentOS 7. Từ chương trình nmtui, chúng ta có thể cấu hình IP tĩnh cho card mạng, tắt mở kết nối mạng, thiết lập hostname cho OS, tạo card bonding, cấu hình VLAN bằng NM,… rất là tiện lợi vô cùng.
+- gõ command “nmtui” để mở “Network Manager”
+---------------------------------------------------------------------------------------
+# nmtui
+---------------------------------------------------------------------------------------
+
+* Cấu hình ip tĩnh cho card mạng bằng tay truyền thống
+- – Giờ ta có card mạng ‘ens33‘ thì ta cần tạo 1 file cấu hình có tên tiền tố là ‘ifcfg-<tên card mạng>‘ trong thư mục ‘/etc/sysconfig/network-scripts/‘. Ví dụ dưới đây thì ta sẽ tạo file ‘ifcfg-ens33‘ .
+---------------------------------------------------------------------------------------
+# vi /etc/sysconfig/network-scripts/ifcfg-ens33
+DEVICE=ens33
+NAME=ens33
+HWADDR=00:08:A2:0A:BA:B8
+UUID=41171a6f-bce1-44de-8a6e-cf5e782f8bd6
+ONBOOT=yes
+TYPE=Ethernet
+BOOTPROTO=static
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no
+IPADDR=192.168.10.20
+PREFIX=24
+GATEWAY=192.168.10.1
+DNS1=192.168.1.10
+DEFROUTE=yes
+---------------------------------------------------------------------------------------
+– Sau khi đã hoàn tất cấu hình IP tĩnh như trên thì ta sẽ khởi động lại dịch vụ network trên CentOS 7.
+---------------------------------------------------------------------------------------
+# service network restart
+---------------------------------------------------------------------------------------
+
+
+Bước 5: Cấu hình IP tại Windows 7
+- Chọn Control Panel => Chọn View network status and tasks
+- Chọn Local Area Connections
+- Chọn Properties => Chọn Internet Protocol Version 4 (TCP/IPv4)
+- Chọn Use the following IP address và cấu hình IP,SM,DG và DNS.
+
+
+Bước 6: Ping mạng lẫn nhau

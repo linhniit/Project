@@ -1,0 +1,73 @@
+Bước 1: Tạo file để có thể up lên Github
+Tạo thư mục bất kỳ sau đó tạo một file text.txt có nội dụng mà bạn muốn ghi. Ví dụ sau đây mình sẽ tạo thư mục Du an tại Documents trong đó thư mục mình tạo file text1.txt.
+
+Bước 2: Tạo repository
+sử dụng dòng lệnh "git init" để khởi tạo một repository trong thư mục. Bên Window thì dùng GIT CMD còn Linux dùng terminal. Trong ví dụ đây mình sẽ làm trên Window bằng GIT CMD.
+---------------------------------------------------------------------------------------
+C:\Users\DELL> cd Documents\Du an            <== trỏ về thư mục mà chúng ta đã tạo
+C:\Users\DELL\Documents\Du an> git init      <== lệnh để khởi tạo repository
+initialized empty Git repository in C:/Users/DELL/Documents/Du an/.git/ 
+---------------------------------------------------------------------------------------
+Như vậy đã tạo thành công.
+
+Bước 3: Thêm file vào repository
+Khi bạn tạo muốn Git theo dõi một file bất kì thì bạn cần thêm nó bằng lệnh "git add".
+Cú pháp: git add file-name
+---------------------------------------------------------------------------------------
+C:\Users\DELL\Documents\Du an> git add text1.txt
+---------------------------------------------------------------------------------------
+
+Buoc 4: Tạo các commit
+Để tạo một commit thì các bạn dùng lệnh sau:
+Cú pháp : git commit -m "Nội dung commit"
+---------------------------------------------------------------------------------------
+C:\Users\DELL\Documents\Du an> git commit -m "Save" 
+[master (root-commit) 5cbea20] Save
+ 1 file changed, 17 insertions(+)
+ create mode 100644 Github_co_ban.txt
+---------------------------------------------------------------------------------------
+* Hiển thị các lần commit:
+Để hiện thi các lần commit gần đây thì các bạn sử dụng lệnh như sau:
+Cú pháp : git log
+---------------------------------------------------------------------------------------
+C:\Users\DELL\Documents\Du an>git log
+commit 5cbea20d857f65fdca7a3498289b82f49a29ffcd (HEAD -> master)
+Author: Tuan Kiet <73010832+dt10102k@users.noreply.github.com>
+Date:   Tue Sep 7 15:31:26 2021 +0700
+
+    Save
+---------------------------------------------------------------------------------------
+Ở đây các bạn chỉ mới tạo một kho lưu trữ trên localhost tức là máy tính cá nhân.Bạn cần phải đẩy lên một kho lưu trữ trực tuyến (Ở đây mình sử dụng Github) thì những người khác mới có thể truy cập vào được.
+
+Bước 5:Sử dụng Github
+Tạo tài khoản Github các bạn vào trang github.com và chọn sign up nhập thông tin và có thể xác nhận email.
+
+Bước 6:Tạo repositories trên github
+Bạn nhấn vào New repository sau đó nhập tên mà bạn muốn đặt. Sao đó các bạn chọn Create repository để tạo mới một kho lưu trữ trên Github.
+
+Buoc 7: Đẩy một project lên Github
+Muốn đẩy một project lên Github thì các bạn cần thêm đường dẫn đến kho lưu trữ của mình, các bạn copy đoạn đường dẫn ở đây vào. 
+Sau đó các bạn chỉ cần gõ lệnh sau để thêm đường dẫn kho lưu trữ vào :
+Cú pháp : git remote add origin link-repository
+---------------------------------------------------------------------------------------
+C:\Users\DELL\Documents\Du an> git remote add origin https://github.com/dt10102k/TuanKiet-project.git
+---------------------------------------------------------------------------------------
+Sau đó để đẩy project lên thì các bạn gõ lệnh sau: git push origin master
+---------------------------------------------------------------------------------------
+C:\Users\DELL\Documents\Du an> git push origin master
+
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 1.50 KiB | 770.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create a pull request for 'master' on GitHub by visiting:
+remote:      https://github.com/dt10102k/TuanKiet-project/pull/new/master
+remote:
+To https://github.com/dt10102k/TuanKiet-project.git
+ * [new branch]      master -> master
+
+---------------------------------------------------------------------------------------
+Trong đó origin chính là đường dẫn đến repository bạn vừa thêm ở trên, master là branch chính. Bây giờ các bạn lên lại trang Github để xem lại project của mình.
